@@ -12,6 +12,7 @@ public class SortingPanel extends JPanel{
 	
 	private Random rand = new Random();
 	private int[] numberArray = new int[100];
+	private boolean isRunning = false;
 	
 	JButton bubbleSort = new JButton("Bubble Sort");
 	JButton mergeSort = new JButton("Merge Sort");
@@ -33,14 +34,10 @@ public class SortingPanel extends JPanel{
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
-			{
-				System.out.println("This is the array before sorting");
-				printArray();
-				
+			{		
+				isRunning = true;
 				bubbleSort();
-				
-				System.out.println("This is the array after sorting");
-				printArray();
+
 			}
 		});
 		
@@ -53,13 +50,7 @@ public class SortingPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				System.out.println("This is the array before sorting");
-				printArray();
-				
 				mergeSort(numberArray, 0, numberArray.length - 1);
-				
-				System.out.println("This is the array after sorting");
-				printArray();
 			}
 		});
 		
@@ -85,16 +76,10 @@ public class SortingPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				System.out.println("This is the array before sorting");
-				printArray();
-				
 				// 0 is first index of array
 				// high is last index of the array
 				int high = numberArray.length - 1;
 				quickSort(numberArray, 0, high);
-				
-				System.out.println("This is the array after sorting");
-				printArray();
 			}
 		});
 		
@@ -107,13 +92,7 @@ public class SortingPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				System.out.println("This is the array before sorting");
-				printArray();
-				
 				heapSort(numberArray);
-				
-				System.out.println("This is the array after sorting");
-				printArray();
 			}
 		});
 		
@@ -159,6 +138,8 @@ public class SortingPanel extends JPanel{
 				}
 			}	
 		}
+		
+		//isRunning = false;
 	}
 	
 	/*
@@ -255,10 +236,7 @@ public class SortingPanel extends JPanel{
 	 * 
 	 * */
 	public void insertionSort()
-	{
-		System.out.println("This is the array before sorting");
-		printArray();
-		
+	{	
 		for(int i = 1; i < numberArray.length; i++)
 		{
 			//Get the current value we want to sort
@@ -275,9 +253,6 @@ public class SortingPanel extends JPanel{
 			}
 			numberArray[comparisonIndex + 1] = currentNumber;
 		}
-		
-		System.out.println("This is the array after sorting");
-		printArray();
 	}
 	
 	/*
@@ -426,15 +401,21 @@ public class SortingPanel extends JPanel{
 		return true;
 	}
 	
-	public void bubbleSortAnimate() throws Exception
+	public void bubbleSortAnimate()
 	{
-		Timer timer = new Timer(1, new ActionListener()
+		Timer timer = new Timer(100, new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
 				
-				
+				if(!isRunning)
+					((Timer)e.getSource()).stop();
+				else
+				{
+					if(isRunning == true)
+						bubbleSort();
+				}
 				repaint();
 			}
 
